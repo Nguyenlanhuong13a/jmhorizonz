@@ -3,8 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, ProductInput } from "@/lib/validations/product";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useDeferredValue } from "react";
 import { createProduct, updateProduct } from "@/lib/actions/product";
 import { Loader2, Plus, X } from "lucide-react";
 
@@ -36,12 +37,16 @@ export const ProductForm = ({ initialData, productId }: ProductFormProps) => {
             images: [""],
             technicalSpecs: [""],
         },
+        mode: "onBlur", // Only validate on blur to reduce re-renders
     });
 
-    const images = watch("images") || [];
-    const technicalSpecs = watch("technicalSpecs") || [];
+    // Use deferred values to prevent re-renders on every keystroke
+    const imagesValue = watch("images") || [];
+    const technicalSpecsValue = watch("technicalSpecs") || [];
+    const images = useDeferredValue(imagesValue);
+    const technicalSpecs = useDeferredValue(technicalSpecsValue);
 
-    const onSubmit = async (data: ProductInput) => {
+    const onSubmit = useCallback(async (data: ProductInput) => {
         setIsLoading(true);
         setError(null);
 
@@ -64,21 +69,27 @@ export const ProductForm = ({ initialData, productId }: ProductFormProps) => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [productId, router]);
 
-    const addImageField = () => setValue("images", [...images, ""]);
-    const removeImageField = (index: number) => {
+    const addImageField = useCallback(() => {
+        setValue("images", [...images, ""], { shouldDirty: true });
+    }, [images, setValue]);
+
+    const removeImageField = useCallback((index: number) => {
         const newImages = [...images];
         newImages.splice(index, 1);
-        setValue("images", newImages);
-    };
+        setValue("images", newImages, { shouldDirty: true });
+    }, [images, setValue]);
 
-    const addSpecField = () => setValue("technicalSpecs", [...technicalSpecs, ""]);
-    const removeSpecField = (index: number) => {
+    const addSpecField = useCallback(() => {
+        setValue("technicalSpecs", [...technicalSpecs, ""], { shouldDirty: true });
+    }, [technicalSpecs, setValue]);
+
+    const removeSpecField = useCallback((index: number) => {
         const newSpecs = [...technicalSpecs];
         newSpecs.splice(index, 1);
-        setValue("technicalSpecs", newSpecs);
-    };
+        setValue("technicalSpecs", newSpecs, { shouldDirty: true });
+    }, [technicalSpecs, setValue]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
@@ -169,11 +180,11 @@ export const ProductForm = ({ initialData, productId }: ProductFormProps) => {
 
                         <div className="space-y-4">
                             {images.map((_, index) => (
-                                <div key={index} className="flex gap-2">
+                                <div key={`image-${index}`} className="flex gap-2">
                                     <input
                                         {...register(`images.${index}`)}
                                         placeholder="IMAGE_URL_NODE"
-                                        className="flex-1 border border-black/10 p-4 font-mono text-[10px] uppercase outline-none"
+                                        className="flex-1 border border-black/10 p-4 font-mono text-[10px] uppercase outline-none focus:bg-neutral-50 transition-colors"
                                     />
                                     {images.length > 1 && (
                                         <button type="button" onClick={() => removeImageField(index)} className="p-4 border border-black hover:bg-black hover:text-white transition-colors">
@@ -194,11 +205,11 @@ export const ProductForm = ({ initialData, productId }: ProductFormProps) => {
 
                         <div className="space-y-4">
                             {technicalSpecs.map((_, index) => (
-                                <div key={index} className="flex gap-2">
+                                <div key={`spec-${index}`} className="flex gap-2">
                                     <input
                                         {...register(`technicalSpecs.${index}`)}
                                         placeholder="SPEC_DATA_POINT"
-                                        className="flex-1 border border-black/10 p-4 font-mono text-[10px] uppercase outline-none"
+                                        className="flex-1 border border-black/10 p-4 font-mono text-[10px] uppercase outline-none focus:bg-neutral-50 transition-colors"
                                     />
                                     {technicalSpecs.length > 1 && (
                                         <button type="button" onClick={() => removeSpecField(index)} className="p-4 border border-black hover:bg-black hover:text-white transition-colors">

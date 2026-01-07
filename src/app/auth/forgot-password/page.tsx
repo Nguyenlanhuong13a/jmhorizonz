@@ -32,6 +32,7 @@ export default function ForgotPasswordPage() {
         formState: { errors },
     } = useForm<ForgotPasswordInput>({
         resolver: zodResolver(forgotPasswordSchema),
+        mode: "onBlur", // Only validate on blur to reduce re-renders
     });
 
     const onSubmit = async (data: ForgotPasswordInput) => {
@@ -92,56 +93,35 @@ export default function ForgotPasswordPage() {
                                 <label className="block font-mono text-[10px] uppercase tracking-[0.2em] text-white mb-2">
                                     EMAIL_ADDRESS
                                 </label>
-                                <motion.input
+                                <input
                                     {...register("email")}
                                     type="email"
                                     placeholder="user@domain.com"
-                                    className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 focus:animate-[flicker_0.15s_ease-in-out_infinite] transition-all"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.2, duration: 0.4 }}
-                                    whileFocus={{ 
-                                        borderColor: "#FFF",
-                                        borderWidth: "2px",
-                                        transition: { duration: 0.1 }
-                                    }}
+                                    className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 focus:animate-[flicker_0.15s_ease-in-out_infinite] transition-[border]"
                                 />
                                 {errors.email && (
-                                    <motion.p 
-                                        className="font-mono text-[8px] text-[#0F0] uppercase tracking-widest pt-1"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                    >
+                                    <p className="font-mono text-[8px] text-[#0F0] uppercase tracking-widest pt-1">
                                         {errors.email.message}
-                                    </motion.p>
+                                    </p>
                                 )}
                             </div>
 
                             {/* Error Message */}
                             {error && (
-                                <motion.div 
-                                    className="p-3 border border-[#0F0] border-opacity-50 text-[#0F0] font-mono text-[10px] uppercase tracking-widest text-center"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                >
+                                <div className="p-3 border border-[#0F0] border-opacity-50 text-[#0F0] font-mono text-[10px] uppercase tracking-widest text-center">
                                     Error: {error}
-                                </motion.div>
+                                </div>
                             )}
 
                             {/* Submit Button */}
-                            <motion.button
+                            <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-4 bg-white text-black font-mono text-[12px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-0 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3, duration: 0.4 }}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                className="w-full py-4 bg-white text-black font-mono text-[12px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-colors duration-0 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isLoading && <Loader2 className="animate-spin" size={14} />}
                                 Send Reset Link
-                            </motion.button>
+                            </button>
                         </form>
 
                         {/* Links */}
