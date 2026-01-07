@@ -48,7 +48,7 @@ export default function CartPage() {
 
     return (
         <main className="flex-grow pt-24 px-6 md:px-12 pb-24">
-            <h1 className="text-[4vw] font-heading uppercase tracking-tighter mb-12">Shopping Bag</h1>
+            <h1 className="font-heading uppercase tracking-tighter mb-12" style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)' }}>Shopping Bag</h1>
 
             <div className="flex flex-col lg:flex-row gap-16">
                 {/* Cart Items */}
@@ -136,7 +136,7 @@ export default function CartPage() {
                             {isCheckingOut ? (
                                 <>
                                     <Loader2 className="animate-spin" size={16} />
-                                    <span>PROCESSING TRANSACTION...</span>
+                                    <span>INITIALIZING PAYMENT PROTOCOL...</span>
                                 </>
                             ) : (
                                 'Proceed to Checkout — AR-01'

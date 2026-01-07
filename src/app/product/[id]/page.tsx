@@ -51,7 +51,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <div className="flex-1 lg:sticky lg:top-32 h-fit space-y-12">
                 <div>
                     <div className="flex justify-between items-baseline mb-4">
-                        <h1 className="text-[5vw] lg:text-[4vw] font-heading uppercase tracking-tighter leading-none">
+                        <h1 className="font-heading uppercase tracking-tighter leading-none" style={{ fontSize: 'clamp(1.5rem, 5vw, 4rem)' }}>
                             {product.name}
                         </h1>
                         <p className="font-mono text-2xl font-bold">${product.price}</p>

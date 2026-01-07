@@ -13,8 +13,8 @@ export default function NotFound() {
                 className="max-w-2xl w-full"
             >
                 <div className="mb-12">
-                    <h1 className="text-[15vw] font-heading leading-none tracking-tighter opacity-10">404</h1>
-                    <div className="relative -mt-[10vw]">
+                    <h1 className="font-heading leading-none tracking-tighter opacity-10" style={{ fontSize: 'clamp(4rem, 15vw, 12rem)' }}>404</h1>
+                    <div className="relative" style={{ marginTop: 'clamp(-3rem, -10vw, -1rem)' }}>
                         <h2 className="text-4xl md:text-6xl font-heading uppercase tracking-tighter mb-4">
                             PROTOCOL ERROR
                         </h2>

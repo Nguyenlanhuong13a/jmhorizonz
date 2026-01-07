@@ -51,8 +51,9 @@ export default async function ProfilePage() {
                 <div className="space-y-6 relative">
                     <div className="relative">
                         <h1 
-                            className="text-[12vw] font-heading uppercase tracking-tighter leading-none"
+                            className="font-heading uppercase tracking-tighter leading-none"
                             style={{
+                                fontSize: 'clamp(3rem, 12vw, 10rem)',
                                 color: 'transparent',
                                 WebkitTextStroke: '1px #FFF',
                                 opacity: 0.15
@@ -61,7 +62,7 @@ export default async function ProfilePage() {
                             ENTITY NODE
                         </h1>
                         <div className="absolute top-0 left-0 flex items-center gap-4">
-                            <h1 className="text-[4vw] md:text-[3vw] font-heading uppercase tracking-tighter leading-none text-white">
+                            <h1 className="font-heading uppercase tracking-tighter leading-none text-white" style={{ fontSize: 'clamp(1.5rem, 4vw, 3rem)' }}>
                                 ENTITY NODE
                             </h1>
                             {session.user.role === "ADMIN" && (

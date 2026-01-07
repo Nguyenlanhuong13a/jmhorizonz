@@ -50,8 +50,9 @@ export default function RegisterPage() {
             {/* Background REGISTER Header - Outline Style */}
             <h1 className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
                 <span 
-                    className="text-[15vw] font-heading uppercase leading-none tracking-tighter max-w-full max-h-full"
+                    className="font-heading uppercase leading-none tracking-tighter max-w-full max-h-full"
                     style={{
+                        fontSize: 'clamp(4rem, 15vw, 12rem)',
                         color: 'transparent',
                         WebkitTextStroke: '1px #FFF',
                         opacity: 0.15

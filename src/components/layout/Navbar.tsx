@@ -2,21 +2,29 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, User, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/core/constants";
 import { useCart } from "@/context/CartContext";
 import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { Marquee } from "@/components/ui/Marquee";
 
 export const Navbar = () => {
     const { totalItems, isMounted: cartMounted } = useCart();
+    const { data: session } = useSession();
     const [mounted, setMounted] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [mockIP, setMockIP] = useState("");
+    const [mockCoords, setMockCoords] = useState("");
     const pathname = usePathname();
 
     useEffect(() => {
         setMounted(true);
+        // Generate mock IP and coordinates for tech vibe
+        setMockIP(`${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`);
+        setMockCoords(`${(Math.random() * 180 - 90).toFixed(4)}°N, ${(Math.random() * 360 - 180).toFixed(4)}°E`);
     }, []);
 
     // Close mobile menu when route changes
@@ -27,8 +35,8 @@ export const Navbar = () => {
     // Hydration fix: Return placeholder with matching height to prevent layout shift
     if (!mounted) {
         return (
-            <nav className="sticky top-0 z-50 min-h-[100px] w-full bg-[#000] text-white border-b-2 border-white flex items-stretch py-10">
-                <div className="h-8 w-full" />
+            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black flex items-center">
+                <div className="h-14 w-full" />
             </nav>
         );
     }
@@ -37,64 +45,58 @@ export const Navbar = () => {
 
     return (
         <>
-            <nav className="sticky top-0 z-50 min-h-[100px] w-full bg-[#000] text-white border-b-2 border-white flex items-stretch py-10">
+            {/* Desktop: System Status Bar */}
+            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black hidden lg:flex items-center">
                 {/* Left: Brand Logo */}
-                <div className="flex items-center px-4 md:px-8 border-r border-white flex-shrink-0">
-                    <Link href="/" className="font-heading text-2xl md:text-4xl font-black tracking-tighter hover:text-white/80 transition-colors">
+                <div className="flex items-center px-4 border-r border-black flex-shrink-0">
+                    <Link href="/" className="font-mono text-xs font-bold tracking-tighter hover:invert transition-all">
                         J&M HORIZONZ
                     </Link>
                 </div>
 
-                {/* Center: Desktop Navigation - Hidden on mobile */}
-                <div className="flex-1 hidden md:flex items-center justify-center space-x-12 border-r border-white">
-                    {NAV_LINKS.map((link) => (
-                        <Link
-                            key={link.label}
-                            href={link.href}
-                            className="text-base font-mono uppercase tracking-[0.3em] hover:text-white/60 transition-colors"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                {/* Center: Marquee */}
+                <div className="flex-1 overflow-hidden border-r border-black">
+                    <Marquee />
                 </div>
 
-                {/* Right: Icons & Mobile Menu Button */}
-                <div className="flex items-center px-4 md:px-8 space-x-4 md:space-x-8">
-                    {/* Desktop Icons - Hidden on mobile */}
-                    <div className="hidden md:flex items-center space-x-8">
-                        <Link href="/profile" className="hover:text-white/60 transition-colors">
-                            <User size={24} strokeWidth={2} />
-                        </Link>
-                        <button onClick={() => signOut()} className='text-xs font-mono border border-white px-2 py-1 hover:text-red-500 transition-colors'>LOGOUT</button>
-                        <div className="h-full w-[1px] bg-white mx-4" />
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="relative group flex items-center space-x-2"
-                        >
-                            <Link href="/cart" className="flex items-center space-x-2">
-                                <motion.div
-                                    animate={{ y: [0, -4, 0] }}
-                                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                                >
-                                    <ShoppingBag size={24} strokeWidth={2} className="group-hover:text-white/60 transition-colors" />
-                                </motion.div>
-                                <span className="text-sm font-mono tracking-widest">
-                                    ({showBagCount ? totalItems : 0})
-                                </span>
-                            </Link>
-                        </motion.button>
-                    </div>
-
-                    {/* Mobile Menu Button - Visible only on mobile */}
-                    <button
-                        onClick={() => setIsMobileMenuOpen(true)}
-                        className="md:hidden hover:text-white/60 transition-colors"
-                        aria-label="Open menu"
+                {/* Right: Cart & Login */}
+                <div className="flex items-center px-4">
+                    <Link 
+                        href="/cart" 
+                        className="px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
                     >
-                        <Menu size={24} strokeWidth={2} />
-                    </button>
+                        CART [{showBagCount ? totalItems : 0}]
+                    </Link>
+                    {session ? (
+                        <button 
+                            onClick={() => signOut()} 
+                            className="ml-2 px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
+                        >
+                            LOGOUT
+                        </button>
+                    ) : (
+                        <Link 
+                            href="/auth/login" 
+                            className="ml-2 px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
+                        >
+                            LOGIN
+                        </Link>
+                    )}
                 </div>
+            </nav>
+
+            {/* Mobile: Menu Button */}
+            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black flex lg:hidden items-center justify-between px-4">
+                <Link href="/" className="font-mono text-xs font-bold tracking-tighter">
+                    J&M HORIZONZ
+                </Link>
+                <button
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    className="font-mono text-xs uppercase border border-black px-3 py-1 hover:invert transition-all"
+                    aria-label="Open menu"
+                >
+                    MENU [ + ]
+                </button>
             </nav>
 
             {/* Mobile Menu Overlay */}
@@ -105,71 +107,59 @@ export const Navbar = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 z-50 bg-black"
+                        className="fixed inset-0 bg-white z-[999]"
                     >
                         {/* Close Button */}
-                        <div className="absolute top-6 right-6 z-10">
+                        <div className="absolute top-4 right-4 z-10">
                             <button
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="hover:text-white/60 transition-colors"
+                                className="font-mono text-xs uppercase border border-black px-3 py-1 hover:invert transition-all"
                                 aria-label="Close menu"
                             >
-                                <X size={32} strokeWidth={2} />
+                                CLOSE [ X ]
                             </button>
                         </div>
 
-                        {/* Mobile Navigation Links */}
-                        <div className="flex flex-col items-center justify-center h-full px-6">
+                        {/* Mobile Navigation Links - Left Aligned */}
+                        <div className="flex flex-col items-start justify-center h-full px-6">
                             {NAV_LINKS.map((link, index) => (
                                 <motion.div
                                     key={link.label}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
                                     transition={{
-                                        duration: 0.4,
+                                        duration: 0.3,
                                         delay: index * 0.1,
                                         ease: "easeOut"
                                     }}
-                                    className="mb-8"
+                                    className="mb-4"
                                 >
                                     <Link
                                         href={link.href}
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="text-4xl font-heading uppercase tracking-tighter hover:text-white/60 transition-colors block text-center"
+                                        className="font-heading uppercase tracking-tighter leading-[0.8] block"
+                                        style={{ fontSize: 'clamp(3rem, 10vw, 6rem)' }}
                                     >
                                         {link.label}
                                     </Link>
                                 </motion.div>
                             ))}
 
-                            {/* Mobile Icons */}
+                            {/* Footer: Mock IP and Coordinates */}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
                                 transition={{
-                                    duration: 0.4,
+                                    duration: 0.3,
                                     delay: NAV_LINKS.length * 0.1,
                                     ease: "easeOut"
                                 }}
-                                className="flex items-center space-x-8 mt-12 pt-12 border-t border-white border-opacity-30"
+                                className="absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest opacity-60"
                             >
-                                <Link href="/profile" className="hover:text-white/60 transition-colors">
-                                    <User size={24} strokeWidth={2} />
-                                </Link>
-                                <Link href="/cart" className="flex items-center space-x-2 hover:text-white/60 transition-colors">
-                                    <ShoppingBag size={24} strokeWidth={2} />
-                                    <span className="text-sm font-mono tracking-widest">
-                                        ({showBagCount ? totalItems : 0})
-                                    </span>
-                                </Link>
-                                <button onClick={() => {
-                                    signOut();
-                                    setIsMobileMenuOpen(false);
-                                }} className='text-xs font-mono border border-white px-2 py-1 hover:text-red-500 transition-colors'>
-                                    LOGOUT
-                                </button>
+                                <div>IP: {mockIP}</div>
+                                <div>COORDS: {mockCoords}</div>
                             </motion.div>
                         </div>
                     </motion.div>

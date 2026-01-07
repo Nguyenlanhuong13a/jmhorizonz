@@ -1,7 +1,7 @@
 export default function StoryPage() {
     return (
         <main className="flex-grow flex flex-col items-center justify-center p-6 text-center">
-            <h1 className="text-[6vw] font-heading uppercase tracking-tighter mb-4">The Manifest</h1>
+            <h1 className="font-heading uppercase tracking-tighter mb-4" style={{ fontSize: 'clamp(2rem, 6vw, 5rem)' }}>The Manifest</h1>
             <div className="w-24 h-[1px] bg-black mb-8" />
             <p className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-60 mb-12 max-w-md">
                 Exploring the intersection of brutalist architecture and functional high-fashion.

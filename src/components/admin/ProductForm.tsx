@@ -32,7 +32,7 @@ export const ProductForm = ({ initialData, productId }: ProductFormProps) => {
             slug: "",
             price: 0,
             stockCount: 0,
-            category: "",
+            category: undefined,
             description: "",
             images: [""],
             technicalSpecs: [""],

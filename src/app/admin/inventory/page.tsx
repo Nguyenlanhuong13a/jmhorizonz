@@ -27,7 +27,7 @@ export default function InventoryPage() {
             setProducts(prev => prev.map(p => p.id === id ? { ...p, published: !published } : p));
             toast.success("Status updated");
         } else {
-            toast.error(result.error);
+            toast.error(result.error || "Failed to update status");
         }
     };
 
