@@ -1,6 +1,6 @@
 export default function CatchAllPage() {
     return (
-        <main className="min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
+        <main className="flex-grow flex flex-col items-center justify-center p-6 text-center">
             <h1 className="text-[10vw] font-heading uppercase tracking-tighter mb-4 opacity-10">404</h1>
             <h2 className="text-2xl font-heading uppercase mb-2">Protocol Broken</h2>
             <p className="font-mono text-[10px] uppercase tracking-widest opacity-40 mb-12">The requested access point does not exist or has been archived.</p>

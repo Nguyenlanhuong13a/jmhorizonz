@@ -11,7 +11,7 @@ export default function CartPage() {
     // Hydration guard
     if (!isMounted) {
         return (
-            <main className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
+            <main className="flex-grow flex flex-col items-center justify-center p-6 text-center">
                 <div className="w-12 h-12 border-2 border-black border-t-transparent rounded-full animate-spin" />
             </main>
         );
@@ -23,7 +23,7 @@ export default function CartPage() {
 
     if (items.length === 0) {
         return (
-            <main className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
+            <main className="flex-grow flex flex-col items-center justify-center p-6 text-center">
                 <h1 className="text-4xl font-heading uppercase mb-8">Your Bag is Empty</h1>
                 <Link href="/shop" className="border border-black px-8 py-4 bg-black text-white font-mono text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
                     Back to Shop
@@ -33,7 +33,7 @@ export default function CartPage() {
     }
 
     return (
-        <main className="pt-24 px-6 md:px-12 pb-24">
+        <main className="flex-grow pt-24 px-6 md:px-12 pb-24">
             <h1 className="text-[4vw] font-heading uppercase tracking-tighter mb-12">Shopping Bag</h1>
 
             <div className="flex flex-col lg:flex-row gap-16">

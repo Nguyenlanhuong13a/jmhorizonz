@@ -31,11 +31,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
     }
 
     return (
-        <main className="pt-24 pb-24 px-6 md:px-12 flex flex-col lg:flex-row gap-16">
+        <main className="flex-grow pt-24 pb-24 px-6 md:px-12 flex flex-col lg:flex-row gap-16">
             {/* Image Gallery */}
             <div className="flex-1 grid grid-cols-1 gap-4">
                 {product.images.map((img, i) => (
-                    <div key={i} className="relative aspect-[3/4] bg-neutral-100 overflow-hidden group">
+                    <div key={`product-image-${i}`} className="relative aspect-[3/4] bg-neutral-100 overflow-hidden group">
                         <Image
                             src={img}
                             alt={product.name}
@@ -71,7 +71,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <h3 className="font-mono text-[10px] uppercase tracking-widest opacity-40">Technical Specs</h3>
                     <ul className="space-y-3">
                         {(product.technicalSpecs as string[]).map((spec, i) => (
-                            <li key={i} className="flex items-center space-x-3 text-[10px] font-mono uppercase tracking-widest">
+                            <li key={`spec-${i}-${spec}`} className="flex items-center space-x-3 text-[10px] font-mono uppercase tracking-widest">
                                 <span className="w-1.5 h-1.5 bg-black" />
                                 <span>{spec}</span>
                             </li>

@@ -42,7 +42,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
     const currentPage = parseInt(searchParams.page || "1");
 
     return (
-        <main className="textured-noise bg-white text-black">
+        <main className="textured-noise bg-white text-black flex-grow">
             <Suspense fallback={
                 <div className="min-h-screen py-24 flex items-center justify-center font-mono text-xs animate-pulse">
                     Initializing Neural Grid...

@@ -7,12 +7,10 @@ import { useEffect, useState } from "react";
 
 export const Footer = () => {
     const [time, setTime] = useState("");
-    const [isMounted, setIsMounted] = useState(false);
+    const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
-        // Use a small delay or requestAnimationFrame to satisfy strict linting rules
-        // regarding set-state-in-effect for hydration.
-        const timer = setTimeout(() => setIsMounted(true), 0);
+        setHasMounted(true);
 
         const updateClock = () => {
             const now = new Date();
@@ -30,7 +28,6 @@ export const Footer = () => {
         const interval = setInterval(updateClock, 1000);
 
         return () => {
-            clearTimeout(timer);
             clearInterval(interval);
         };
     }, []);
@@ -49,7 +46,7 @@ export const Footer = () => {
                     className="flex whitespace-nowrap"
                 >
                     {Array.from({ length: 2 }).map((_, i) => (
-                        <h2 key={i} className="text-[15vw] font-serif leading-none tracking-[-0.1em] uppercase pr-24">
+                        <h2 key={`footer-marquee-${i}`} className="text-[15vw] font-serif leading-none tracking-[-0.1em] uppercase pr-24">
                             J&M HORIZONZ — J&M HORIZONZ —
                         </h2>
                     ))}
@@ -67,7 +64,7 @@ export const Footer = () => {
                             <span className="text-[10px] font-mono uppercase tracking-widest">SYSTEM STATUS: ONLINE</span>
                         </div>
                         <div className="text-[10px] font-mono uppercase tracking-widest opacity-40">
-                            LOCAL TIME (PST): {isMounted ? time : "--:--:--"}
+                            LOCAL TIME (PST): {hasMounted ? time : "--:--:--"}
                         </div>
                     </div>
                 </div>

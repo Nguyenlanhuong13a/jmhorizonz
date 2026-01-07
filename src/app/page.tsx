@@ -11,7 +11,7 @@ export default async function Home() {
   });
 
   return (
-    <main className="textured-noise bg-white text-black">
+    <main className="textured-noise bg-white text-black flex-grow">
       <Hero />
       <Marquee />
 

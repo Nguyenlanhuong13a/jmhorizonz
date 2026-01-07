@@ -1,6 +1,6 @@
 export default function StoryPage() {
     return (
-        <main className="min-h-[80vh] flex flex-col items-center justify-center p-6 text-center">
+        <main className="flex-grow flex flex-col items-center justify-center p-6 text-center">
             <h1 className="text-[6vw] font-heading uppercase tracking-tighter mb-4">The Manifest</h1>
             <div className="w-24 h-[1px] bg-black mb-8" />
             <p className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-60 mb-12 max-w-md">

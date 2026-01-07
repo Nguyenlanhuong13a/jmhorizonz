@@ -31,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased bg-white text-black font-body selection:bg-black selection:text-white relative icon-cursor">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="antialiased bg-white text-black font-body selection:bg-black selection:text-white relative icon-cursor flex flex-col min-h-screen">
         <AuthProvider>
           <CartProvider>
             {/* 
@@ -45,7 +45,9 @@ export default function RootLayout({
               <ConditionalNavbar />
             </ClientOnly>
 
-            {children}
+            <div className="flex-grow flex flex-col">
+              {children}
+            </div>
 
             <ClientOnly>
                 <ConditionalFooter />

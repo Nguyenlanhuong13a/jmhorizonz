@@ -16,7 +16,7 @@ export const Marquee = () => {
                     className="flex space-x-12"
                 >
                     {Array.from({ length: 4 }).map((_, i) => (
-                        <span key={i} className="text-4xl font-heading text-white tracking-tighter">
+                        <span key={`marquee-item-${i}`} className="text-4xl font-heading text-white tracking-tighter">
                             SWISS PRECISION — NY GRIT — FUTURE READY — ARCHIVAL QUALITY —
                         </span>
                     ))}

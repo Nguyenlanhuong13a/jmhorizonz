@@ -13,7 +13,7 @@ export default async function ArchivePage() {
     }
 
     return (
-        <main>
+        <main className="flex-grow">
             <ProductGrid
                 products={products}
                 title="The Archive"

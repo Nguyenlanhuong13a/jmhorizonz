@@ -13,7 +13,7 @@ export default async function ShopPage() {
     }
 
     return (
-        <main>
+        <main className="flex-grow">
             <ProductGrid
                 products={products}
                 title="Full Catalog"

@@ -88,6 +88,10 @@
   --foreground: #09090b;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -98,6 +102,10 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 h1,

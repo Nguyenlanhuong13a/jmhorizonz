@@ -45,7 +45,7 @@ export default async function ProfilePage() {
     }
 
     return (
-        <main className="bg-[#000] text-white pt-32 pb-24 px-6 md:px-12">
+        <main className="flex-grow bg-[#000] text-white pt-32 pb-24 px-6 md:px-12">
             <div className="max-w-7xl mx-auto space-y-24">
                 {/* Header with Outline Text */}
                 <div className="space-y-6 relative">
