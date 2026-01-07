@@ -19,22 +19,22 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const cartStore = useCartStore();
-    const [hasMounted, setHasMounted] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     // Persistence check & Hydration safety
     useEffect(() => {
-        setHasMounted(true);
+        setMounted(true);
     }, []);
 
     const value: CartContextType = {
-        items: hasMounted ? cartStore.items : [],
+        items: mounted ? cartStore.items : [],
         addItem: cartStore.addItem,
         removeItem: cartStore.removeItem,
         updateQuantity: cartStore.updateQuantity,
         clearCart: cartStore.clearCart,
-        subtotal: hasMounted ? cartStore.items.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0,
-        totalItems: hasMounted ? cartStore.items.reduce((acc, item) => acc + item.quantity, 0) : 0,
-        isMounted: hasMounted
+        subtotal: mounted ? cartStore.items.reduce((acc, item) => acc + item.price * item.quantity, 0) : 0,
+        totalItems: mounted ? cartStore.items.reduce((acc, item) => acc + item.quantity, 0) : 0,
+        isMounted: mounted
     };
 
     return (

@@ -10,14 +10,14 @@ import { signOut } from "next-auth/react";
 
 export const Navbar = () => {
     const { totalItems, isMounted: cartMounted } = useCart();
-    const [hasMounted, setHasMounted] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setHasMounted(true);
+        setMounted(true);
     }, []);
 
     // Hydration fix: Return placeholder with matching height to prevent layout shift
-    if (!hasMounted) {
+    if (!mounted) {
         return (
             <nav className="sticky top-0 z-50 min-h-[100px] w-full bg-[#000] text-white border-b-2 border-white flex items-stretch py-10">
                 <div className="h-8 w-full" />
@@ -25,7 +25,7 @@ export const Navbar = () => {
         );
     }
 
-    const showBagCount = hasMounted && cartMounted;
+    const showBagCount = mounted && cartMounted;
 
     return (
         <nav className="sticky top-0 z-50 min-h-[100px] w-full bg-[#000] text-white border-b-2 border-white flex items-stretch py-10">
@@ -54,7 +54,7 @@ export const Navbar = () => {
                 <Link href="/profile" className="hover:text-white/60 transition-colors">
                     <User size={24} strokeWidth={2} />
                 </Link>
-                <button onClick={() => signOut()} className='text-xs font-mono hover:text-red-500 transition-colors'>LOGOUT_PROTOCOL</button>
+                <button onClick={() => signOut()} className='text-xs font-mono border border-white px-2 py-1 hover:text-red-500 transition-colors'>LOGOUT</button>
                 <div className="h-full w-[1px] bg-white mx-4" />
                 <motion.button
                     whileHover={{ scale: 1.1 }}

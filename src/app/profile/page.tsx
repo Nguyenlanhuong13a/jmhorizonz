@@ -36,7 +36,7 @@ export default async function ProfilePage() {
     const profile = await getProfileData(session.user.id);
     if (!profile) {
         return (
-            <main className="bg-[#000] text-white h-screen flex items-center justify-center overflow-hidden">
+            <main className="flex-grow bg-[#000] text-white flex items-center justify-center">
                 <div className="text-center">
                     <p className="font-mono text-[12px] text-[#0F0] uppercase tracking-widest">DATA CORRUPTION: PROFILE NOT FOUND</p>
                 </div>

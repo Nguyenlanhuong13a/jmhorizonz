@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 export const ComingSoonPlaceholder = () => {
     return (
-        <section className="flex-grow flex items-center justify-center bg-[#000] relative overflow-hidden min-h-[60vh]">
-            <div className="w-full px-6 md:px-12 py-24 flex flex-col items-center justify-center">
+        <section className="flex items-center justify-center bg-[#000] relative overflow-hidden py-24 md:py-32">
+            <div className="w-full px-6 md:px-12 flex flex-col items-center justify-center">
                 <motion.h2
-                    className="text-[15vw] font-heading uppercase leading-none text-white animate-[flicker_0.15s_ease-in-out_infinite]"
+                    className="text-[8vw] md:text-[6vw] font-heading uppercase leading-none text-white"
                     style={{ letterSpacing: '-0.05em' }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

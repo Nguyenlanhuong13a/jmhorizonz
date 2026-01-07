@@ -32,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className={cn(inter.className, 'min-h-screen flex flex-col bg-black text-white')}>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden h-full`} suppressHydrationWarning>
+      <body className={cn(inter.className, 'h-full min-h-screen flex flex-col bg-black text-white overflow-x-hidden')}>
         <AuthProvider>
           <CartProvider>
             {/* 
@@ -46,9 +46,9 @@ export default function RootLayout({
               <ConditionalNavbar />
             </ClientOnly>
 
-            <main className='flex-grow'>
+            <div className="flex-1 flex flex-col w-full">
               {children}
-            </main>
+            </div>
 
             {/* Footer - Always visible except on auth/admin pages */}
             <ConditionalFooter />

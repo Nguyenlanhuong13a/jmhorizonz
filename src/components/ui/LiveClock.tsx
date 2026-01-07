@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 
 export const LiveClock = () => {
     const [time, setTime] = useState("");
-    const [hasMounted, setHasMounted] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setHasMounted(true);
+        setMounted(true);
         
         const updateClock = () => {
             const now = new Date();
@@ -26,7 +26,7 @@ export const LiveClock = () => {
         return () => clearInterval(interval);
     }, []);
 
-    if (!hasMounted) return <span className="font-mono tabular-nums">--:--:-- PST</span>;
+    if (!mounted) return null;
 
     return <span className="font-mono tabular-nums">{time} PST</span>;
 };

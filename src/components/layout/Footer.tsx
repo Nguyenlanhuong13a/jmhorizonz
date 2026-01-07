@@ -33,24 +33,33 @@ export const Footer = () => {
     }, []);
 
     return (
-        <footer className="bg-black text-white pt-24 pb-12 px-6 md:px-12 overflow-hidden">
+        <footer className="bg-black text-white pt-24 pb-12 px-6 md:px-12 w-full max-w-full overflow-x-hidden flex-shrink-0">
             {/* Massive Logo Marquee */}
-            <div className="w-full border-b border-white/10 mb-24 pb-12 overflow-hidden">
-                <motion.div
-                    animate={{ x: ["0%", "-50%"] }}
-                    transition={{
-                        repeat: Infinity,
-                        ease: "linear",
-                        duration: 30,
-                    }}
-                    className="flex whitespace-nowrap"
-                >
-                    {Array.from({ length: 2 }).map((_, i) => (
-                        <h2 key={`footer-marquee-${i}`} className="text-[15vw] font-serif leading-none tracking-[-0.1em] uppercase pr-24">
-                            J&M HORIZONZ — J&M HORIZONZ —
-                        </h2>
-                    ))}
-                </motion.div>
+            <div className="w-full border-b border-white/10 mb-24 pb-12 relative" style={{ overflow: 'hidden', maxWidth: '100%' }}>
+                <div className="relative" style={{ overflow: 'hidden', width: '100%' }}>
+                    <motion.div
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{
+                            repeat: Infinity,
+                            ease: "linear",
+                            duration: 30,
+                        }}
+                        className="flex whitespace-nowrap"
+                        style={{ willChange: 'transform' }}
+                    >
+                        {Array.from({ length: 2 }).map((_, i) => (
+                            <h2 key={`footer-marquee-${i}`} className="text-[8vw] md:text-[6vw] font-serif leading-none tracking-[-0.1em] uppercase pr-12 md:pr-24 flex-shrink-0">
+                                J&M HORIZONZ — J&M HORIZONZ —
+                            </h2>
+                        ))}
+                    </motion.div>
+                </div>
+                {/* Spacer to maintain height */}
+                <div className="invisible pointer-events-none absolute top-0 left-0">
+                    <h2 className="text-[8vw] md:text-[6vw] font-serif leading-none tracking-[-0.1em] uppercase">
+                        J&M HORIZONZ — J&M HORIZONZ —
+                    </h2>
+                </div>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-start gap-12">
