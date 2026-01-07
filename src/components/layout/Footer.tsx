@@ -48,7 +48,7 @@ export const Footer = () => {
                         style={{ willChange: 'transform' }}
                     >
                         {Array.from({ length: 2 }).map((_, i) => (
-                            <h2 key={`footer-marquee-${i}`} className="text-[8vw] md:text-[6vw] font-serif leading-none tracking-[-0.1em] uppercase pr-12 md:pr-24 flex-shrink-0">
+                            <h2 key={`footer-marquee-${i}`} className="text-display-large font-serif leading-none tracking-[-0.1em] uppercase pr-12 md:pr-24 flex-shrink-0">
                                 J&M HORIZONZ — J&M HORIZONZ —
                             </h2>
                         ))}
@@ -56,7 +56,7 @@ export const Footer = () => {
                 </div>
                 {/* Spacer to maintain height */}
                 <div className="invisible pointer-events-none absolute top-0 left-0">
-                    <h2 className="text-[8vw] md:text-[6vw] font-serif leading-none tracking-[-0.1em] uppercase">
+                    <h2 className="text-display-large font-serif leading-none tracking-[-0.1em] uppercase">
                         J&M HORIZONZ — J&M HORIZONZ —
                     </h2>
                 </div>
@@ -111,8 +111,8 @@ export const Footer = () => {
                     © 2026 J&M HORIZONZ. ALL RIGHTS RESERVED.
                 </p>
                 <div className="flex space-x-8 opacity-40">
-                    <Link href="#" className="text-[8px] font-mono uppercase tracking-widest hover:opacity-100">Privacy</Link>
-                    <Link href="#" className="text-[8px] font-mono uppercase tracking-widest hover:opacity-100">Terms</Link>
+                    <Link href="/privacy" className="text-[8px] font-mono uppercase tracking-widest hover:opacity-100 transition-opacity cursor-pointer">Privacy</Link>
+                    <Link href="/terms" className="text-[8px] font-mono uppercase tracking-widest hover:opacity-100 transition-opacity cursor-pointer">Terms</Link>
                 </div>
             </div>
         </footer>

@@ -7,7 +7,7 @@ export const ComingSoonSection = () => {
         <div className="min-h-[400px] flex items-center justify-center bg-black border-t border-white border-opacity-10">
             <div className="w-full px-6 md:px-12 py-24 flex flex-col items-center justify-center">
                 <motion.h2
-                    className="text-[8vw] font-heading uppercase leading-none text-white"
+                    className="text-display-large font-heading uppercase leading-none text-white"
                     style={{ letterSpacing: '-0.05em' }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

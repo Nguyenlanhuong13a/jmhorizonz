@@ -10,8 +10,8 @@ export const Hero = () => {
     return (
         <section className="relative min-h-[90vh] flex flex-col pt-0 overflow-hidden bg-white text-black">
             {/* Massive Title Layer */}
-            <div className="relative z-10 w-full px-6 pt-24 mix-blend-difference text-white">
-                <h1 className="text-[12vw] font-heading leading-[0.85] tracking-tighter uppercase whitespace-pre-line">
+            <div className="relative z-10 w-full px-6 md:px-12 pt-24 mix-blend-difference text-white">
+                <h1 className="text-hero font-heading leading-[0.85] tracking-tighter uppercase whitespace-pre-line">
                     CONCRETE<br />
                     DREAMS<br />
                     OF TOMORROW
@@ -33,7 +33,7 @@ export const Hero = () => {
             </motion.div>
 
             {/* Call to Action */}
-            <div className="absolute bottom-12 left-6 z-20">
+            <div className="absolute bottom-12 left-6 md:left-12 z-20">
                 <button className="px-8 py-4 bg-black text-white font-body text-xs uppercase tracking-widest border border-black hover-invert">
                     Explore New Drops
                 </button>

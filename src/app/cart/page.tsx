@@ -3,10 +3,14 @@
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
-import { Plus, Minus, X } from "lucide-react";
+import { Plus, Minus, X, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CartPage() {
     const { items, removeItem, updateQuantity, subtotal, isMounted } = useCart();
+    const router = useRouter();
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     // Hydration guard
     if (!isMounted) {
@@ -20,6 +24,16 @@ export default function CartPage() {
     const taxes = subtotal * 0.08;
     const shipping = subtotal > 0 ? 25 : 0;
     const total = subtotal + taxes + shipping;
+
+    const handleCheckout = async () => {
+        setIsCheckingOut(true);
+        
+        // Simulate network request delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Redirect to checkout page
+        router.push('/checkout');
+    };
 
     if (items.length === 0) {
         return (
@@ -110,8 +124,23 @@ export default function CartPage() {
                             <span>${total.toFixed(2)}</span>
                         </div>
 
-                        <button className="w-full py-6 bg-black text-white font-mono text-sm uppercase tracking-[0.2em] hover:opacity-80 transition-opacity mt-8">
-                            Proceed to Checkout — AR-01
+                        <button 
+                            onClick={handleCheckout}
+                            disabled={isCheckingOut}
+                            className={`w-full py-6 bg-black text-white font-mono text-sm uppercase tracking-[0.2em] transition-opacity mt-8 flex items-center justify-center gap-3 ${
+                                isCheckingOut 
+                                    ? 'opacity-60 cursor-not-allowed' 
+                                    : 'hover:opacity-80'
+                            }`}
+                        >
+                            {isCheckingOut ? (
+                                <>
+                                    <Loader2 className="animate-spin" size={16} />
+                                    <span>PROCESSING TRANSACTION...</span>
+                                </>
+                            ) : (
+                                'Proceed to Checkout — AR-01'
+                            )}
                         </button>
 
                         <p className="text-[8px] font-mono uppercase tracking-widest opacity-40 text-center">

@@ -34,7 +34,7 @@ export const ProductGrid = ({
                             {subtitle}
                         </p>
                     )}
-                    <h2 className="text-[8vw] md:text-[6vw] font-heading leading-none uppercase tracking-tighter">
+                    <h2 className="text-display-large font-heading leading-none uppercase tracking-tighter">
                         {title || "Deployments"}
                     </h2>
                 </div>
