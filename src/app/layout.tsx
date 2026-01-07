@@ -8,6 +8,7 @@ import { ConditionalNavbar } from "@/components/layout/ConditionalNavbar";
 import { ConditionalFooter } from "@/components/layout/ConditionalFooter";
 import { Toaster } from "react-hot-toast";
 import { ClientOnly } from "@/components/ui/ClientOnly"; // Import the hydration fix
+import { cn } from "@/core/utils/cn";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="antialiased bg-white text-black font-body selection:bg-black selection:text-white relative icon-cursor flex flex-col min-h-screen">
+      <body className={cn(inter.className, 'min-h-screen flex flex-col bg-black text-white')}>
         <AuthProvider>
           <CartProvider>
             {/* 
@@ -45,9 +46,9 @@ export default function RootLayout({
               <ConditionalNavbar />
             </ClientOnly>
 
-            <div className="flex-grow flex flex-col">
+            <main className='flex-grow'>
               {children}
-            </div>
+            </main>
 
             {/* Footer - Always visible except on auth/admin pages */}
             <ConditionalFooter />

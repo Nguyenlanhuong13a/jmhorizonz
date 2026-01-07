@@ -6,6 +6,7 @@ import { ShoppingBag, User } from "lucide-react";
 import { NAV_LINKS } from "@/core/constants";
 import { useCart } from "@/context/CartContext";
 import { useEffect, useState } from "react";
+import { signOut } from "next-auth/react";
 
 export const Navbar = () => {
     const { totalItems, isMounted: cartMounted } = useCart();
@@ -53,6 +54,7 @@ export const Navbar = () => {
                 <Link href="/profile" className="hover:text-white/60 transition-colors">
                     <User size={24} strokeWidth={2} />
                 </Link>
+                <button onClick={() => signOut()} className='text-xs font-mono hover:text-red-500 transition-colors'>LOGOUT_PROTOCOL</button>
                 <div className="h-full w-[1px] bg-white mx-4" />
                 <motion.button
                     whileHover={{ scale: 1.1 }}
