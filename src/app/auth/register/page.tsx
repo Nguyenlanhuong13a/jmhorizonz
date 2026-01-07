@@ -78,7 +78,7 @@ export default function RegisterPage() {
                             {...register("name")}
                             type="text"
                             placeholder="John Doe"
-                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 focus:animate-[flicker_0.15s_ease-in-out_infinite] transition-[border]"
+                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 transition-all duration-200"
                         />
                         {errors.name && (
                             <p className="font-mono text-[8px] text-[#0F0] uppercase tracking-widest pt-1">
@@ -96,7 +96,7 @@ export default function RegisterPage() {
                             {...register("email")}
                             type="email"
                             placeholder="user@domain.com"
-                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 focus:animate-[flicker_0.15s_ease-in-out_infinite] transition-[border]"
+                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 transition-all duration-200"
                         />
                         {errors.email && (
                             <p className="font-mono text-[8px] text-[#0F0] uppercase tracking-widest pt-1">
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                             {...register("password")}
                             type="password"
                             placeholder="••••••••"
-                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 focus:animate-[flicker_0.15s_ease-in-out_infinite] transition-[border]"
+                            className="w-full bg-transparent border-0 border-b border-white border-opacity-30 py-3 font-mono text-[12px] text-white placeholder:text-white placeholder:opacity-50 outline-none focus:border-opacity-100 focus:border-b-2 transition-all duration-200"
                         />
                         {errors.password && (
                             <p className="font-mono text-[8px] text-[#0F0] uppercase tracking-widest pt-1">
