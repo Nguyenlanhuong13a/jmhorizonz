@@ -28,3 +28,5 @@ export const ComingSoonPlaceholder = () => {
     );
 };
 
+export default ComingSoonPlaceholder;
+

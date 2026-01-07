@@ -1,6 +1,6 @@
 import { ProductGrid } from "@/components/sections/ProductGrid";
-import { ComingSoonPlaceholder } from "@/components/sections/ComingSoonPlaceholder";
 import { getProducts } from "@/lib/actions/product";
+import ComingSoonPlaceholderWrapper from "@/components/sections/ComingSoonPlaceholderWrapper";
 
 export default async function ShopPage() {
     const { products } = await getProducts({
@@ -9,7 +9,7 @@ export default async function ShopPage() {
     });
 
     if (products.length === 0) {
-        return <ComingSoonPlaceholder />;
+        return <ComingSoonPlaceholderWrapper />;
     }
 
     return (

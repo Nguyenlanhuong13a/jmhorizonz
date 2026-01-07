@@ -49,9 +49,8 @@ export default function RootLayout({
               {children}
             </div>
 
-            <ClientOnly>
-                <ConditionalFooter />
-            </ClientOnly>
+            {/* Footer - Always visible except on auth/admin pages */}
+            <ConditionalFooter />
             <Toaster position="bottom-right" />
           </CartProvider>
         </AuthProvider>

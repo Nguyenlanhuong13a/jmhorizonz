@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-export const ClientOnly = ({ children }: { children: React.ReactNode }) => {
+export const ClientOnly = ({ 
+    children, 
+    fallback 
+}: { 
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+}) => {
     const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
@@ -10,7 +16,7 @@ export const ClientOnly = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     if (!hasMounted) {
-        return null; // or a loading skeleton if passed as prop, but null avoids mismatch
+        return fallback ? <>{fallback}</> : null;
     }
 
     return <>{children}</>;

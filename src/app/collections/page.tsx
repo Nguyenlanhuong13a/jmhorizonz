@@ -1,8 +1,8 @@
 import { ProductGrid } from "@/components/sections/ProductGrid";
-import { ComingSoonPlaceholder } from "@/components/sections/ComingSoonPlaceholder";
 import { getProducts } from "@/lib/actions/product";
 import { CollectionsPagination } from "@/components/sections/CollectionsPagination";
 import { Suspense } from "react";
+import ComingSoonPlaceholderWrapper from "@/components/sections/ComingSoonPlaceholderWrapper";
 
 interface CollectionsPageProps {
     searchParams: { page?: string };
@@ -17,7 +17,7 @@ async function CollectionsContent({ page }: { page: number }) {
     const totalPages = Math.ceil(total / 12);
 
     if (products.length === 0) {
-        return <ComingSoonPlaceholder />;
+        return <ComingSoonPlaceholderWrapper />;
     }
 
     return (
