@@ -2,167 +2,171 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { NAV_LINKS } from "@/core/constants";
 import { useCart } from "@/context/CartContext";
 import { useEffect, useState } from "react";
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { Marquee } from "@/components/ui/Marquee";
 
 export const Navbar = () => {
     const { totalItems, isMounted: cartMounted } = useCart();
     const { data: session } = useSession();
     const [mounted, setMounted] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [mockIP, setMockIP] = useState("");
-    const [mockCoords, setMockCoords] = useState("");
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
 
     useEffect(() => {
         setMounted(true);
-        // Generate mock IP and coordinates for tech vibe
-        setMockIP(`${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`);
-        setMockCoords(`${(Math.random() * 180 - 90).toFixed(4)}°N, ${(Math.random() * 360 - 180).toFixed(4)}°E`);
     }, []);
 
-    // Close mobile menu when route changes
+    // Close menu when route changes
     useEffect(() => {
-        setIsMobileMenuOpen(false);
+        setIsMenuOpen(false);
     }, [pathname]);
 
-    // Hydration fix: Return placeholder with matching height to prevent layout shift
-    if (!mounted) {
-        return (
-            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black flex items-center">
-                <div className="h-14 w-full" />
-            </nav>
-        );
-    }
+    if (!mounted) return null;
 
     const showBagCount = mounted && cartMounted;
 
     return (
         <>
-            {/* Desktop: System Status Bar */}
-            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black hidden lg:flex items-center">
-                {/* Left: Brand Logo */}
-                <div className="flex items-center px-4 border-r border-black flex-shrink-0">
-                    <Link href="/" className="font-mono text-xs font-bold tracking-tighter hover:invert transition-all">
-                        J&M HORIZONZ
-                    </Link>
-                </div>
+            {/* Vertical Logo at Top-Left */}
+            <Link 
+                href="/" 
+                className="fixed top-0 left-0 z-40 px-4 py-6 pointer-events-auto"
+                style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+            >
+                <span className="font-mono text-xs font-bold tracking-[0.3em] uppercase opacity-60 hover:opacity-100 transition-opacity">
+                    J&M HORIZONZ
+                </span>
+            </Link>
 
-                {/* Center: Marquee */}
-                <div className="flex-1 overflow-hidden border-r border-black">
-                    <Marquee />
-                </div>
-
-                {/* Right: Cart & Login */}
-                <div className="flex items-center px-4">
+            {/* Floating Control Center Widget - Bottom Right */}
+            <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 px-4 py-2 border border-black bg-white/90 backdrop-blur-md text-black"
+                >
+                    <button
+                        onClick={() => setIsMenuOpen(true)}
+                        className="font-mono text-xs uppercase tracking-widest text-black hover:opacity-60 transition-opacity"
+                    >
+                        MENU
+                    </button>
+                    <div className="w-px h-4 bg-black" />
                     <Link 
                         href="/cart" 
-                        className="px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
+                        className="font-mono text-xs uppercase tracking-widest text-black hover:opacity-60 transition-opacity"
                     >
-                        CART [{showBagCount ? totalItems : 0}]
+                        CART ({showBagCount ? totalItems : 0})
                     </Link>
-                    {session ? (
-                        <button 
-                            onClick={() => signOut()} 
-                            className="ml-2 px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
-                        >
-                            LOGOUT
-                        </button>
-                    ) : (
-                        <Link 
-                            href="/auth/login" 
-                            className="ml-2 px-3 py-1 border border-black bg-white text-black font-mono text-xs uppercase hover:invert transition-all"
-                        >
-                            LOGIN
-                        </Link>
-                    )}
-                </div>
-            </nav>
+                </motion.div>
+            </div>
 
-            {/* Mobile: Menu Button */}
-            <nav className="sticky top-0 z-50 h-14 w-full bg-white text-black border-y border-black flex lg:hidden items-center justify-between px-4">
-                <Link href="/" className="font-mono text-xs font-bold tracking-tighter">
-                    J&M HORIZONZ
-                </Link>
-                <button
-                    onClick={() => setIsMobileMenuOpen(true)}
-                    className="font-mono text-xs uppercase border border-black px-3 py-1 hover:invert transition-all"
-                    aria-label="Open menu"
-                >
-                    MENU [ + ]
-                </button>
-            </nav>
-
-            {/* Mobile Menu Overlay */}
+            {/* Bottom Sheet Menu */}
             <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="fixed inset-0 bg-white z-[999]"
-                    >
-                        {/* Close Button */}
-                        <div className="absolute top-4 right-4 z-10">
-                            <button
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="font-mono text-xs uppercase border border-black px-3 py-1 hover:invert transition-all"
-                                aria-label="Close menu"
-                            >
-                                CLOSE [ X ]
-                            </button>
-                        </div>
+                {isMenuOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsMenuOpen(false)}
+                            className="fixed inset-0 bg-black/20 z-[998]"
+                        />
+                        
+                        {/* Bottom Sheet */}
+                        <motion.div
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black z-[999] max-h-[85vh] overflow-y-auto"
+                            style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E")`,
+                            }}
+                        >
+                            {/* Close Button */}
+                            <div className="sticky top-0 bg-white border-b-2 border-black p-4 flex justify-between items-center">
+                                <span className="font-mono text-xs uppercase tracking-widest text-black font-bold">
+                                    NAVIGATION MENU
+                                </span>
+                                <button
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="font-mono text-xs uppercase tracking-widest border-2 border-black px-4 py-2 bg-white text-black hover:bg-black hover:text-white transition-all"
+                                >
+                                    CLOSE [X]
+                                </button>
+                            </div>
 
-                        {/* Mobile Navigation Links - Left Aligned */}
-                        <div className="flex flex-col items-start justify-center h-full px-6">
-                            {NAV_LINKS.map((link, index) => (
+                            {/* Receipt-Style Links */}
+                            <div className="p-6 space-y-0 bg-white">
+                                {/* Home Link */}
                                 <motion.div
-                                    key={link.label}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{
-                                        duration: 0.3,
-                                        delay: index * 0.1,
-                                        ease: "easeOut"
-                                    }}
-                                    className="mb-4"
+                                    transition={{ delay: 0 }}
                                 >
                                     <Link
-                                        href={link.href}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className="font-heading uppercase tracking-tighter leading-[0.8] block"
-                                        style={{ fontSize: 'clamp(3rem, 10vw, 6rem)' }}
+                                        href="/"
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="block py-5 border-b border-dashed border-black font-mono text-base uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all"
                                     >
-                                        {link.label}
+                                        HOME
                                     </Link>
                                 </motion.div>
-                            ))}
+                                
+                                {NAV_LINKS.map((link, index) => (
+                                    <motion.div
+                                        key={link.label}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: (index + 1) * 0.05 }}
+                                    >
+                                        <Link
+                                            href={link.href}
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="block py-5 border-b border-dashed border-black font-mono text-base uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all"
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                                
+                                {/* Auth Links */}
+                                <div className="pt-4 border-t-2 border-black mt-4">
+                                    {session ? (
+                                        <button
+                                            onClick={() => {
+                                                signOut();
+                                                setIsMenuOpen(false);
+                                            }}
+                                            className="block w-full py-5 border-b border-dashed border-black font-mono text-base uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all text-left"
+                                        >
+                                            LOGOUT
+                                        </button>
+                                    ) : (
+                                        <Link
+                                            href="/auth/login"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="block py-5 border-b border-dashed border-black font-mono text-base uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all"
+                                        >
+                                            LOGIN
+                                        </Link>
+                                    )}
+                                </div>
 
-                            {/* Footer: Mock IP and Coordinates */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: NAV_LINKS.length * 0.1,
-                                    ease: "easeOut"
-                                }}
-                                className="absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest opacity-60"
-                            >
-                                <div>IP: {mockIP}</div>
-                                <div>COORDS: {mockCoords}</div>
-                            </motion.div>
-                        </div>
-                    </motion.div>
+                                {/* Footer Info */}
+                                <div className="pt-6 mt-4 border-t-2 border-black font-mono text-xs uppercase tracking-widest text-black opacity-60 space-y-1">
+                                    <div>J&M HORIZONZ © 2026</div>
+                                    <div>ALL RIGHTS RESERVED</div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
         </>
